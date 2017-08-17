@@ -22,41 +22,22 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 CC = gcc
-AR = ar
-RM = rm -f
-CFLAGS = -Wall -O2
-OBJS = ezxml.o
-LIB = libezxml.a
-TEST = ezxmltest
 
-.if defined(NOMMAP) || make(nommap)
 CFLAGS += -D EZXML_NOMMAP
-.endif
-.if defined(DEBUG) || make(debug) || make(test)
 CFLAGS += -O0 -g
-.endif
-.if make($(TEST)) || make(test)
 CFLAGS += -D EZXML_TEST
-.endif
 
-all: $(LIB)
+.PHONY: all compile test
 
-$(LIB): $(OBJS)
-	$(AR) rcs $(LIB) $(OBJS)
+all: compile test
 
-test: $(TEST)
+compile: ezxml.o
 
-debug: all
+ezxml.o: ezxml.c
+	$(CC) $(CFLAGS) -c ezxml.c
 
-nommap: all
-
-$(TEST): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS)
-
-ezxml.o: ezxml.h ezxml.c
-
-.c.o:
-	$(CC) $(CFLAGS) -c -o $@ $<
+test: test.c
+	gcc -o test test.c ezxml.o
 
 clean:
-	$(RM) $(OBJS) $(LIB) $(TEST) *~
+	find . -name "*.o" -delete
