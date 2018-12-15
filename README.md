@@ -1,8 +1,20 @@
 # ezXML - XML Parsing C Library
 
-## version 0.8.6
+## Compile / installation
 
-ezXML is a C library for parsing XML documents inspired by simpleXML for PHP. As the name implies, it's easy to use. It's ideal for parsing XML configuration files or REST web service responses. It's also fast and lightweight (less than 20k compiled).
+    $ meson builddir
+    $ ninja -C builddir
+    $ ninja -C builddir test
+
+## Quick overview 
+
+ezXML version 0.8.6 is a C library for parsing XML documents inspired by simpleXML for PHP.
+
+As the name implies, it's easy to use.
+
+It's ideal for parsing XML configuration files or REST web service responses.
+
+It's also fast and lightweight (less than 20k compiled).
 
 ## Example Usage
 
@@ -53,12 +65,9 @@ The -1 indicates the end of the argument list. That's pretty much all there is t
 
 ## Known Limitations
 
-* ezXML is not a validating parser. 
- 
-* Loads the entire XML document into memory at once and does not allow for documents to be passed in a chunk at a time. Large XML files can still be handled though through ezxml_parse_file() and ezxml_parse_fd(), which use mmap to map the file to a virtual address space and rely on the virtual memory system to page in data as needed. 
- 
+* ezXML is not a validating parser.
+* Loads the entire XML document into memory at once and does not allow for documents to be passed in a chunk at a time. Large XML files can still be handled though through ezxml_parse_file() and ezxml_parse_fd(), which use mmap to map the file to a virtual address space and rely on the virtual memory system to page in data as needed.
 * Does not currently recognize all possible well-formedness errors. It should correctly handle all well-formed XML documents and will either ignore or halt XML processing on well-formedness errors. More well-formedness checking will be added in subsiquent releases. 
- 
 * In making the character content of tags easy to access, there is no way provided to keep track of the location of sub tags relative to the character data. Example:
 
 ```
